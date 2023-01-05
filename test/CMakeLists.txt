@@ -9,6 +9,13 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(tutorial_interfaces REQUIRED)
+
+# ament_export_dependencies(rosidl_default_runtime)
+
+# rosidl_get_typesupport_target(cpp_typesupport_target
+#   ${PROJECT_NAME} "rosidl_typesupport_cpp"
+# )
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -26,11 +33,23 @@ add_executable(talker src/publisher.cpp)
 ament_target_dependencies(talker rclcpp std_msgs)
 
 add_executable(listener src/subscriber.cpp)
-ament_target_dependencies(listener rclcpp std_msgs)
+ament_target_dependencies(listener rclcpp tutorial_interfaces)
+
+add_executable(talker2 src/pub_custom.cpp)
+ament_target_dependencies(talker2 rclcpp tutorial_interfaces)
+
+add_executable(listener2 src/sub_custom.cpp)
+ament_target_dependencies(listener2 rclcpp tutorial_interfaces)
+
+# add_executable(yourexename src/sub_custom.cpp)
+# ament_target_dependencies(yourexename rclcpp )
+# target_link_libraries(yourexename "${cpp_typesupport_target}")
 
 install(TARGETS
   talker
+  talker2
   listener
+  listener2
   DESTINATION lib/${PROJECT_NAME}
   )
 
